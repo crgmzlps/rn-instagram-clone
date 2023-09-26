@@ -2,11 +2,14 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import colors from './theme/colors';
 import fonts from './theme/fonts';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 function App(): JSX.Element {
   return (
     <View style={styles.root}>
-      <Text style={styles.text}>Hello React Native</Text>
+      <Text style={styles.text}>
+        Hello React Native <AntDesign name="stepforward" size={18} />
+      </Text>
     </View>
   );
 }
