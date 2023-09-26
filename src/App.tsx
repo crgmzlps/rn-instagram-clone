@@ -1,5 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import colors from './theme/colors';
+import fonts from './theme/fonts';
 
 function App(): JSX.Element {
   return (
@@ -12,12 +14,14 @@ function App(): JSX.Element {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'coral',
+    backgroundColor: colors.lightgrey,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: 'white',
+    fontSize: fonts.size.lg,
+    color: colors.white,
+    backgroundColor: colors.grey,
   },
 });
 
