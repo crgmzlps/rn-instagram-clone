@@ -2,12 +2,14 @@ import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import FeedPost from './components/FeedPost';
 
+import posts from './assets/posts.json';
+
 function App(): JSX.Element {
   return (
     <ScrollView style={styles.app}>
-      <FeedPost />
-      <FeedPost />
-      <FeedPost />
+      {posts.map(post => (
+        <FeedPost key={post.id} post={post} />
+      ))}
     </ScrollView>
   );
 }

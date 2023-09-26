@@ -6,30 +6,39 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../../theme/colors';
 import styles from './styles';
+import Comment from '../Comment';
+import {IComment, IPost} from '../../types/models';
 
-const FeedPost = () => {
+interface IFeedPostProps {
+  post: IPost;
+}
+
+const FeedPost = ({post}: IFeedPostProps) => {
   return (
     <View style={styles.post}>
+      {/* Header */}
       <View style={styles.header}>
         <Image
           source={{
-            uri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/1.jpg',
+            uri: post.user.image,
           }}
           style={styles.userAvatar}
         />
-        <Text style={styles.userName}>username</Text>
+        <Text style={styles.userName}>{post.user.username}</Text>
         <Entypo
           name="dots-three-horizontal"
           size={16}
           style={styles.threeDots}
         />
       </View>
+      {/* Content */}
       <Image
         source={{
-          uri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/1.jpg',
+          uri: post.image,
         }}
         style={styles.image}
       />
+      {/* Footer */}
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
           <AntDesign
@@ -60,24 +69,21 @@ const FeedPost = () => {
         {/* Likes */}
         <Text style={styles.text}>
           Liked by <Text style={styles.bold}>dummy45</Text> and{' '}
-          <Text style={styles.bold}>66 others</Text>
+          <Text style={styles.bold}>{post.nofLikes} others</Text>
         </Text>
         {/* Post description */}
         <Text style={styles.text}>
-          <Text style={styles.bold}>username</Text> Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit.
+          <Text style={styles.bold}>{post.user.username} </Text>
+          {post.description}
         </Text>
         {/* Comments */}
-        <Text>View all 16 comments</Text>
-        <View style={styles.comment}>
-          <Text style={styles.commentText}>
-            <Text style={styles.bold}>dummy45</Text> Lorem ipsum dolor sit, amet
-            consectetur adipisicing elit.
-          </Text>
-          <AntDesign name="hearto" style={styles.icon} color={colors.black} />
-        </View>
+        <Text>View all {post.nofComments} comments</Text>
+        {post.comments?.map((comment: IComment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+
         {/* Posted Date */}
-        <Text>20 December, 2022</Text>
+        <Text>{post.createdAt}</Text>
       </View>
     </View>
   );
