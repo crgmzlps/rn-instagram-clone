@@ -1,16 +1,13 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import FeedPost from './components/FeedPost';
+import {StyleSheet, View} from 'react-native';
 
-import posts from './assets/posts.json';
+import HomeScreen from './screens/HomeScreen';
 
 function App(): JSX.Element {
   return (
-    <ScrollView style={styles.app}>
-      {posts.map(post => (
-        <FeedPost key={post.id} post={post} />
-      ))}
-    </ScrollView>
+    <View style={styles.app}>
+      <HomeScreen />
+    </View>
   );
 }
 
