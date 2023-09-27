@@ -2,11 +2,13 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import HomeScreen from './screens/HomeScreen';
+import CommentsScreen from './screens/CommentsScreen';
 
 function App(): JSX.Element {
   return (
     <View style={styles.app}>
-      <HomeScreen />
+      <CommentsScreen />
+      {/* <HomeScreen /> */}
     </View>
   );
 }
