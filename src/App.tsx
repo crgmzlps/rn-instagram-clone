@@ -3,12 +3,14 @@ import {StyleSheet, View} from 'react-native';
 
 import HomeScreen from './screens/HomeScreen';
 import CommentsScreen from './screens/CommentsScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 function App(): JSX.Element {
   return (
     <View style={styles.app}>
-      <CommentsScreen />
+      {/* <CommentsScreen /> */}
       {/* <HomeScreen /> */}
+      <ProfileScreen />
     </View>
   );
 }
