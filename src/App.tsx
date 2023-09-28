@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import CommentsScreen from './screens/CommentsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
+import PostUploadScreen from './screens/PostUploadScreen';
 
 function App(): JSX.Element {
   return (
@@ -12,7 +13,8 @@ function App(): JSX.Element {
       {/* <CommentsScreen /> */}
       {/* <HomeScreen /> */}
       {/* <ProfileScreen /> */}
-      <EditProfileScreen />
+      {/* <EditProfileScreen /> */}
+      <PostUploadScreen />
     </View>
   );
 }
