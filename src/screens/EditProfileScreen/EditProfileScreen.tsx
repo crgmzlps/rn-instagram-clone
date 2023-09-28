@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {useForm, Controller, Control} from 'react-hook-form';
+import {Asset, launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 import user from '../../assets/data/user.json';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import {useForm, Controller, Control} from 'react-hook-form';
 import {IUser} from '../../types/models';
 
 type IEditableUserField = 'name' | 'username' | 'website' | 'bio';
@@ -75,10 +77,28 @@ const EditProfileScreen = () => {
   const onSubmit = (data: IEditableUser) => {
     console.log('on submit: ', JSON.stringify(data, null, 2));
   };
+  const [selectedPhoto, setSelectedPhoto] = useState<Asset | null>();
+  const onChangePhoto = () => {
+    launchImageLibrary(
+      {mediaType: 'photo'},
+      ({didCancel, errorCode, errorMessage, assets}) => {
+        if (!didCancel && !errorCode && assets?.length) {
+          const [firstPhoto] = assets;
+          setSelectedPhoto(firstPhoto);
+          // console.log(assets);
+        }
+      },
+    );
+  };
   return (
     <View style={styles.page}>
-      <Image source={{uri: user.image}} style={styles.avatar} />
-      <Text style={styles.textButton}>Change profile photo</Text>
+      <Image
+        source={{uri: selectedPhoto?.uri || user.image}}
+        style={styles.avatar}
+      />
+      <Text style={styles.textButton} onPress={onChangePhoto}>
+        Change profile photo
+      </Text>
       <CustomInput
         label="Name"
         name="name"
