@@ -9,6 +9,27 @@ import ProfileScreen from '../screens/ProfileScreen';
 import PostUploadScreen from '../screens/PostUploadScreen';
 import colors from '../theme/colors';
 import HomeStackNavigator from './HomeStackNavigator';
+import ProfileStackNavigator from './ProfileStackNavigator';
+
+const HomeButton = ({color, size}: {color: string; size: number}) => (
+  <MaterialIcons name="home-filled" size={size} color={color} />
+);
+const SearchButton = ({color, size}: {color: string; size: number}) => (
+  <MaterialIcons name="search" size={size} color={color} />
+);
+const UploadButton = ({color, size}: {color: string; size: number}) => (
+  <MaterialCommunityIcons
+    name="plus-circle-outline"
+    size={size}
+    color={color}
+  />
+);
+const NotificationsButton = ({color, size}: {color: string; size: number}) => (
+  <MaterialCommunityIcons name="heart-outline" size={size} color={color} />
+);
+const ProfileButton = ({color, size}: {color: string; size: number}) => (
+  <FontAwesome name="user-circle-o" size={size} color={color} />
+);
 
 const Tab = createBottomTabNavigator();
 
@@ -24,18 +45,14 @@ const BottomTabNavigator = () => {
         component={HomeStackNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="home-filled" size={size} color={color} />
-          ),
+          tabBarIcon: HomeButton,
         }}
       />
       <Tab.Screen
         name="Search"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="search" size={size} color={color} />
-          ),
+          tabBarIcon: SearchButton,
         }}
       />
       <Tab.Screen
@@ -43,35 +60,22 @@ const BottomTabNavigator = () => {
         component={PostUploadScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons
-              name="plus-circle-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: UploadButton,
         }}
       />
       <Tab.Screen
         name="Notifications"
         component={PostUploadScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons
-              name="heart-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: NotificationsButton,
         }}
       />
       <Tab.Screen
-        name="MyProfile"
-        component={ProfileScreen}
+        name="ProfileStack"
+        component={ProfileStackNavigator}
         options={{
-          tabBarIcon: ({color, size}) => (
-            <FontAwesome name="user-circle-o" size={size} color={color} />
-          ),
+          headerShown: false,
+          tabBarIcon: ProfileButton,
         }}
       />
     </Tab.Navigator>

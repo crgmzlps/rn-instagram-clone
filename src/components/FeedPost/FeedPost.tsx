@@ -32,6 +32,11 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
     navigation.navigate('UserProfile', {userId: post.user.id});
     // navigation.goBack()
   };
+  const navigateToComments = () => {
+    // navigation.push('UserProfile');
+    navigation.navigate('Comments', {postId: post.id});
+    // navigation.goBack()
+  };
 
   let content = null;
   if (post.image) {
@@ -119,7 +124,9 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
           {isDescriptionExpanded ? 'less' : 'more'}
         </Text>
         {/* Comments */}
-        <Text>View all {post.nofComments} comments</Text>
+        <Text onPress={navigateToComments}>
+          View all {post.nofComments} comments
+        </Text>
         {post.comments?.map((comment: IComment) => (
           <Comment key={comment.id} comment={comment} />
         ))}

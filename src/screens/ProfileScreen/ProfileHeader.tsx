@@ -4,8 +4,15 @@ import user from '../../assets/data/user.json';
 import Button from '../../components/Button';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileHeader = () => {
+  const navigation = useNavigation();
+
+  const navigateToEditProfile = () => {
+    navigation.navigate('EditProfile');
+  };
+
   return (
     <View style={styles.root}>
       <View style={styles.headerRow}>
@@ -30,10 +37,7 @@ const ProfileHeader = () => {
       <Text>{user.bio}</Text>
       {/* Buttons */}
       <View style={{flexDirection: 'row'}}>
-        <Button
-          text="Edit profile"
-          onPress={() => console.log('On Edit Profile')}
-        />
+        <Button text="Edit profile" onPress={navigateToEditProfile} />
         <Button text="Another button" />
       </View>
     </View>
