@@ -12,6 +12,7 @@ import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel';
 import VideoPlayer from '../VideoPlayer';
 import {useNavigation} from '@react-navigation/native';
+import { FeedNavigationProp } from '../../navigation/types';
 
 interface IFeedPostProps {
   post: IPost;
@@ -26,7 +27,7 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const toggleLike = () => setIsLiked(prev => !prev);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<FeedNavigationProp>();
   const navigateToUser = () => {
     // navigation.push('UserProfile');
     navigation.navigate('UserProfile', {userId: post.user.id});

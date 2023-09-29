@@ -5,9 +5,10 @@ import Button from '../../components/Button';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
+import {ProfileNavigationProp} from '../../navigation/types';
 
 const ProfileHeader = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileNavigationProp>();
 
   const navigateToEditProfile = () => {
     navigation.navigate('EditProfile');
