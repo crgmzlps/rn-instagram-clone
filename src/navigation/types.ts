@@ -2,7 +2,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RouteProp} from '@react-navigation/native';
 
-export type RootNavigator = {
+export type RootNavigatorParamList = {
   Home: undefined;
   Comments: {postId: string};
 };
