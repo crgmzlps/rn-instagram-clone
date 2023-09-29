@@ -8,9 +8,10 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 const ProfileScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {userId} = route.params;
+  const userId = route.params?.userId;
   // query the user with userId
-  navigation.setOptions({title: user.username});
+
+  // navigation.setOptions({title: user.username});
   return <FeedGridView data={user.posts} listHeaderComponent={ProfileHeader} />;
 };
 
