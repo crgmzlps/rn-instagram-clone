@@ -11,6 +11,7 @@ import {IComment, IPost} from '../../types/models';
 import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel';
 import VideoPlayer from '../VideoPlayer';
+import {useNavigation} from '@react-navigation/native';
 
 interface IFeedPostProps {
   post: IPost;
@@ -24,6 +25,13 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
 
   const [isLiked, setIsLiked] = useState(false);
   const toggleLike = () => setIsLiked(prev => !prev);
+
+  const navigation = useNavigation();
+  const navigateToUser = () => {
+    // navigation.push('UserProfile');
+    navigation.navigate('UserProfile', {userId: post.user.id});
+    // navigation.goBack()
+  };
 
   let content = null;
   if (post.image) {
@@ -42,7 +50,7 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
   } else if (post.video) {
     content = (
       <DoublePressable onDoublePress={toggleLike}>
-        <VideoPlayer uri={post.video} paused={!isVisible}/>
+        <VideoPlayer uri={post.video} paused={!isVisible} />
       </DoublePressable>
     );
   }
@@ -56,7 +64,9 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
           }}
           style={styles.userAvatar}
         />
-        <Text style={styles.userName}>{post.user.username}</Text>
+        <Text onPress={navigateToUser} style={styles.userName}>
+          {post.user.username}
+        </Text>
         <Entypo
           name="dots-three-horizontal"
           size={16}
