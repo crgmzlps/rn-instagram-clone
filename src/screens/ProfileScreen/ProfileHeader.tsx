@@ -6,6 +6,7 @@ import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {ProfileNavigationProp} from '../../navigation/types';
+import {Auth} from 'aws-amplify';
 
 const ProfileHeader = () => {
   const navigation = useNavigation<ProfileNavigationProp>();
@@ -39,7 +40,7 @@ const ProfileHeader = () => {
       {/* Buttons */}
       <View style={{flexDirection: 'row'}}>
         <Button text="Edit profile" onPress={navigateToEditProfile} />
-        <Button text="Another button" />
+        <Button text="Another button - Logout" onPress={() => Auth.signOut()} />
       </View>
     </View>
   );
