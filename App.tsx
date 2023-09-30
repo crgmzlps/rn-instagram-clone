@@ -1,8 +1,8 @@
 import React from 'react';
 import {Amplify} from 'aws-amplify';
-import Navigation from './navigation';
+import Navigation from './src/navigation';
 import {withAuthenticator} from '@aws-amplify/ui-react-native';
-import config from './aws-exports';
+import config from './src/aws-exports';
 Amplify.configure(config);
 
 function App(): JSX.Element {
