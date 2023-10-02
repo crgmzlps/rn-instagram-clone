@@ -18,7 +18,7 @@ import FormInput from '../components/FormInput';
 import SocialSignInButtons from '../components/SocialSignInButtons';
 
 type SignInData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -29,17 +29,17 @@ const SignInScreen = () => {
   const {setUser} = useAuthContext();
   const {control, handleSubmit, reset} = useForm<SignInData>();
 
-  const onSignInPressed = async ({username, password}: SignInData) => {
+  const onSignInPressed = async ({email, password}: SignInData) => {
     if (loading) {
       return;
     }
     setLoading(true);
     try {
-      const cognitoUser = await Auth.signIn(username, password);
+      const cognitoUser = await Auth.signIn(email, password);
       setUser(cognitoUser);
     } catch (error) {
       if ((error as Error).name === 'UserNotConfirmedException') {
-        navigation.navigate('Confirm email', {username});
+        navigation.navigate('Confirm email', {email});
       } else {
         Alert.alert('Oopps', (error as Error).message);
       }
@@ -67,10 +67,10 @@ const SignInScreen = () => {
         />
 
         <FormInput
-          name="username"
-          placeholder="Username"
+          name="email"
+          placeholder="Email"
           control={control}
-          rules={{required: 'Username is required'}}
+          rules={{required: 'Email is required'}}
         />
 
         <FormInput
