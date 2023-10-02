@@ -1,33 +1,37 @@
-import React, {Dispatch, SetStateAction, useContext, useEffect} from 'react';
-import {CognitoUser} from 'amazon-cognito-identity-js';
-import {ReactNode, createContext, useState} from 'react';
-import {Auth, Hub} from 'aws-amplify';
 import {HubCallback} from '@aws-amplify/core';
+import {CognitoUser} from 'amazon-cognito-identity-js';
+import {Auth, Hub} from 'aws-amplify';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 type UserType = CognitoUser | null | undefined;
 type AuthContextType = {
   user: UserType;
-  setUser: Dispatch<SetStateAction<UserType>>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: undefined,
-  setUser: () => {},
 });
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<UserType>(undefined);
 
+  const checkUser = async () => {
+    try {
+      const authUser = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      setUser(authUser);
+    } catch (error) {
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const authUser = await Auth.currentAuthenticatedUser({
-          bypassCache: true,
-        });
-        setUser(authUser);
-      } catch (error) {
-        setUser(null);
-      }
-    };
     checkUser();
   }, []);
 
@@ -37,16 +41,15 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
       if (event === 'signOut') {
         setUser(null);
       }
+      if (event === 'signIn') {
+        checkUser();
+      }
     };
     const cancelListener = Hub.listen('auth', listener);
     return cancelListener;
   }, []);
 
-  return (
-    <AuthContext.Provider value={{user, setUser}}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{user}}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

@@ -7,10 +7,8 @@ import fonts from '../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {ProfileNavigationProp} from '../../types/navigation';
 import {Auth} from 'aws-amplify';
-import {useAuthContext} from '../../contexts/AuthContext';
 
 const ProfileHeader = () => {
-  const {setUser} = useAuthContext();
   const navigation = useNavigation<ProfileNavigationProp>();
 
   const navigateToEditProfile = () => {
@@ -46,7 +44,6 @@ const ProfileHeader = () => {
           text="Another button - Logout"
           onPress={() => {
             Auth.signOut();
-            setUser(null);
           }}
         />
       </View>

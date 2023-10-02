@@ -11,7 +11,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import Logo from '../../../assets/images/logo.png';
-import {useAuthContext} from '../../../contexts/AuthContext';
 import {SignInNavigationProp} from '../../../types/navigation';
 import CustomButton from '../components/CustomButton';
 import FormInput from '../components/FormInput';
@@ -26,7 +25,6 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const {height} = useWindowDimensions();
   const navigation = useNavigation<SignInNavigationProp>();
-  const {setUser} = useAuthContext();
   const {control, handleSubmit, reset} = useForm<SignInData>();
 
   const onSignInPressed = async ({email, password}: SignInData) => {
@@ -35,8 +33,7 @@ const SignInScreen = () => {
     }
     setLoading(true);
     try {
-      const cognitoUser = await Auth.signIn(email, password);
-      setUser(cognitoUser);
+      await Auth.signIn(email, password);
     } catch (error) {
       if ((error as Error).name === 'UserNotConfirmedException') {
         navigation.navigate('Confirm email', {email});
