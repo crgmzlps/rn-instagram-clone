@@ -3,7 +3,7 @@ import React from 'react';
 
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import {ProfileStackNavigatorParamsList} from './types';
+import {ProfileStackNavigatorParamsList} from '../types/navigation';
 
 const Stack = createNativeStackNavigator<ProfileStackNavigatorParamsList>();
 

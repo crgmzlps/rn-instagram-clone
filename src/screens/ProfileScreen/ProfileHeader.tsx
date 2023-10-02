@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
-import {ProfileNavigationProp} from '../../navigation/types';
+import {ProfileNavigationProp} from '../../types/navigation';
 import {Auth} from 'aws-amplify';
 
 const ProfileHeader = () => {
