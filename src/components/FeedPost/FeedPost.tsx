@@ -1,21 +1,22 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Post} from '../../API';
+import {DEFAULT_USER_IMAGE} from '../../config';
 import colors from '../../theme/colors';
-import styles from './styles';
-import Comment from '../Comment';
-import {IComment, IPost} from '../../types/models';
-import DoublePressable from '../DoublePressable';
+import {FeedNavigationProp} from '../../types/navigation';
 import Carousel from '../Carousel';
+import Comment from '../Comment';
+import DoublePressable from '../DoublePressable';
 import VideoPlayer from '../VideoPlayer';
-import {useNavigation} from '@react-navigation/native';
-import { FeedNavigationProp } from '../../types/navigation';
+import styles from './styles';
 
 interface IFeedPostProps {
-  post: IPost;
+  post: Post;
   isVisible: boolean;
 }
 
@@ -30,7 +31,10 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
   const navigation = useNavigation<FeedNavigationProp>();
   const navigateToUser = () => {
     // navigation.push('UserProfile');
-    navigation.navigate('UserProfile', {userId: post.user.id});
+    if (post.User) {
+      navigation.navigate('UserProfile', {userId: post.User?.id});
+    }
+
     // navigation.goBack()
   };
   const navigateToComments = () => {
@@ -66,12 +70,12 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
       <View style={styles.header}>
         <Image
           source={{
-            uri: post.user.image,
+            uri: post.User?.image || DEFAULT_USER_IMAGE,
           }}
           style={styles.userAvatar}
         />
         <Text onPress={navigateToUser} style={styles.userName}>
-          {post.user.username}
+          {post.User?.username}
         </Text>
         <Entypo
           name="dots-three-horizontal"
@@ -118,7 +122,7 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
         </Text>
         {/* Post description */}
         <Text style={styles.text} numberOfLines={isDescriptionExpanded ? 0 : 3}>
-          <Text style={styles.bold}>{post.user.username} </Text>
+          <Text style={styles.bold}>{post.User?.username} </Text>
           {post.description}
         </Text>
         <Text onPress={toggleDescriptionExpanded}>
@@ -128,9 +132,9 @@ const FeedPost = ({post, isVisible}: IFeedPostProps) => {
         <Text onPress={navigateToComments}>
           View all {post.nofComments} comments
         </Text>
-        {post.comments?.map((comment: IComment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
+        {(post.Comments?.items || []).map(
+          comment => comment && <Comment key={comment.id} comment={comment} />,
+        )}
 
         {/* Posted Date */}
         <Text>{post.createdAt}</Text>
