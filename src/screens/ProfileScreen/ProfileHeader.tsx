@@ -1,14 +1,21 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import user from '../../assets/data/user.json';
 import Button from '../../components/Button';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {ProfileNavigationProp} from '../../types/navigation';
 import {Auth} from 'aws-amplify';
+import {User} from '../../API';
+import {DEFAULT_USER_IMAGE} from '../../config';
+import {useAuthContext} from '../../contexts/AuthContext';
 
-const ProfileHeader = () => {
+interface IProfileHeaderProps {
+  user: User;
+}
+
+const ProfileHeader = ({user}: IProfileHeaderProps) => {
+  const {userId} = useAuthContext();
   const navigation = useNavigation<ProfileNavigationProp>();
 
   const navigateToEditProfile = () => {
@@ -19,18 +26,21 @@ const ProfileHeader = () => {
     <View style={styles.root}>
       <View style={styles.headerRow}>
         {/* Profile Image */}
-        <Image source={{uri: user.image}} style={styles.avatar} />
+        <Image
+          source={{uri: user.image || DEFAULT_USER_IMAGE}}
+          style={styles.avatar}
+        />
         {/* Posts, follower, following number */}
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>98</Text>
+          <Text style={styles.numberText}>{user.nofPosts}</Text>
           <Text>Posts</Text>
         </View>
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>198</Text>
+          <Text style={styles.numberText}>{user.nofFollowers}</Text>
           <Text>Followers</Text>
         </View>
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>298</Text>
+          <Text style={styles.numberText}>{user.nofFollowings}</Text>
           <Text>Following</Text>
         </View>
       </View>
@@ -38,15 +48,17 @@ const ProfileHeader = () => {
       <Text style={styles.name}>{user.username}</Text>
       <Text>{user.bio}</Text>
       {/* Buttons */}
-      <View style={{flexDirection: 'row'}}>
-        <Button text="Edit profile" onPress={navigateToEditProfile} />
-        <Button
-          text="Another button - Logout"
-          onPress={() => {
-            Auth.signOut();
-          }}
-        />
-      </View>
+      {userId === user.id && (
+        <View style={{flexDirection: 'row'}}>
+          <Button text="Edit profile" onPress={navigateToEditProfile} />
+          <Button
+            text="Another button - Logout"
+            onPress={() => {
+              Auth.signOut();
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };

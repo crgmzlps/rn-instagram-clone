@@ -9,13 +9,15 @@ import React, {
   useState,
 } from 'react';
 
-type UserType = CognitoUser | null | undefined;
+type UserType = (CognitoUser & {attributes: {sub: string}}) | null | undefined;
 type AuthContextType = {
   user: UserType;
+  userId: string;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: undefined,
+  userId: '',
 });
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<UserType>(undefined);
@@ -49,7 +51,11 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     return cancelListener;
   }, []);
 
-  return <AuthContext.Provider value={{user}}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{user, userId: user?.attributes?.sub || ''}}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContextProvider;

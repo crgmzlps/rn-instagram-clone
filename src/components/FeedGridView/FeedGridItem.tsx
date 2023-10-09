@@ -2,14 +2,14 @@ import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {IPost} from '../../types/models';
+import {Post} from '../../API';
 import colors from '../../theme/colors';
 
-const FeedGridItem = ({post}: {post: IPost}) => {
+const FeedGridItem = ({post}: {post: Post}) => {
   return (
     <View style={styles.root}>
       <Image
-        source={{uri: post.image || post.images[0]}}
+        source={{uri: post.image || post.images?.[0]}}
         style={{
           flex: 1,
         }}

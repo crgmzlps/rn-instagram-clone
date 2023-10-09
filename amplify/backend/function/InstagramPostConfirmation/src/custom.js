@@ -1,20 +1,29 @@
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-const AWS = require('aws-sdk');
-const documentClient = new AWS.DynamoDB.DocumentClient();
+const {DynamoDBClient} = require('@aws-sdk/client-dynamodb');
+const {
+  PutCommand,
+  DynamoDBDocumentClient,
+  GetCommand,
+} = require('@aws-sdk/lib-dynamodb');
 
 const env = process.env.ENV;
+const region = process.env.REGION;
 const AppSyncID = process.env.API_INSTAGRAM_GRAPHQLAPIIDOUTPUT;
 const TableName = `User-${AppSyncID}-${env}`;
 
+const client = new DynamoDBClient({region});
+const docClient = DynamoDBDocumentClient.from(client);
+
 const userExists = async id => {
-  const params = {
+  const command = new GetCommand({
     TableName,
     Key: id,
-  };
+  });
+
   try {
-    const response = await documentClient.get(params).promise();
+    const response = await docClient.send(command);
     return !!response?.Item;
   } catch (e) {
     return false;
@@ -31,12 +40,14 @@ const saveUser = async user => {
     updatedAt: date.toISOString(),
     _version: 1,
   };
-  const params = {
+
+  const command = new PutCommand({
     TableName,
     Item,
-  };
+  });
+
   try {
-    await documentClient.put(params).promise();
+    await docClient.send(command);
   } catch (e) {
     console.log(e);
   }
@@ -53,6 +64,9 @@ exports.handler = async (event, context) => {
     id: sub,
     name,
     email,
+    nofPosts: 0,
+    nofFollowers: 0,
+    nofFollowings: 0,
   };
   if (!(await userExists(newUser.id))) {
     await saveUser(newUser);
